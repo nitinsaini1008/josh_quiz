@@ -44,13 +44,10 @@
 	<title>user login</title>
 </head>
 <body class="bdy" style="text-align: center;font-family: ubuntu;background-color: #e6ffff">
-	<h1>Your result is = {{res}}</h1>
-	<h2>Enter your details to save your result</h2>
-	<form action="result" method="post">
-		{% csrf_token %}
-		enter name<input type="text" name="name" required="required"><br>
-		enter email<input type="email" name="email" required="required"><br>
-		<input type="submit" class="button" name="submit">
-	</form>
+	<h1>Thanks for playing </h1>
+	<button class="button">
+		<a href="">Play again</a>
+	</button>
+	
 </body>
 </html>

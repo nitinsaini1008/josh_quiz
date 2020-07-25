@@ -6,6 +6,7 @@ from .models import answers
 
 initial=0
 ans=[]
+first=True
 
 def home(request):
 	return render(request,'home.html')
@@ -15,54 +16,43 @@ def about(request):
 
 
 def test(request):
-	q=question.objects.all()
-	global initial
-	global ans
-	if request.method=='POST':
-		if initial==0:
-			initial=2
-		
-		if initial>=len(q):
-			for i in range(initial-1,initial):
-				a=request.POST['q_'+str(i+1)]
-				if a!=None:
-					ans.append(int(a))
-				return redirect('user_login')
-		else:
-			for i in range(initial-2,initial):
-				a=request.POST['q_'+str(i+1)]
-				if a!=None:
-					ans.append(int(a))
-		if initial+2<len(q):
-			q1=q[initial:initial+2]
-			initial+=2
-		else:
-			q1=q[initial:]
-			initial=len(q)
-	else:
-		q1=q[initial:initial+2]
-
-
+	q1=question.objects.all()
+	global first
+	first=True
 	return render(request,'test.html',{'q1':q1})
 
 def user_login(request):
-	print(ans)
+	global ans
+	global first
+	if request.method=='POST' and first==True:
+		ans=[]
+		q1=question.objects.all()
+		for i in range(0,len(q1)):
+			a=request.POST['q_'+str(i+1)]
+			if a!=None:
+				ans.append(int(a))
+		print(ans)
+		res=sum(ans)
+		first=False
+		return render(request,'user_login.html',{'res':res})
 	res=sum(ans)
-	q=question.objects.all()
+	
+	return render(request,'user_login.html',{'res':res})
+
+
+def result(request):
 	if request.method=='POST':
 		name=request.POST['name']
 		email=request.POST['email']
+		res=sum(ans)
+		q=question.objects.all()
 		u=my_user.objects.create_user(name,email,res,False)
 		for i in range(0,len(ans)):
 			qq=q[i].que
 			aa=ans[i]
 			a=answers.objects.create_answers(u,qq,aa)
 		
-		return redirect('result')
-		
-
-	return render(request,'user_login.html',{'res':res})
-
-
-def result(request):
 	return render(request,'result.html')
+def last(request):
+	return redirect('home')
+
