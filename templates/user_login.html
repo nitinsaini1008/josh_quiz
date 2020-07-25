@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style type="text/css">
+		.button {
+  border-radius: 35px;
+  background-color:#51a9ab;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 28px;
+  padding: 20px;
+  width: 300px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 25px;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+	</style>
+	<title>user login</title>
+</head>
+<body class="bdy" style="text-align: center;font-family: ubuntu;background-color: #e6ffff">
+	<h1>Your result is = {{res}}</h1>
+	<h2>Enter your details to save your result</h2>
+	<form action="" method="post">
+		{% csrf_token %}
+		enter name<input type="text" name="name" required="required"><br>
+		enter email<input type="email" name="email"><br>
+		<input type="submit" class="button" name="submit">
+	</form>
+</body>
+</html>
